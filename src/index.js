@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import StyleView from './StyleView';
-import Influencer from './Influencer';
 import MainPage from './MainPage';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';

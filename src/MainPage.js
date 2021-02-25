@@ -1,8 +1,43 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
-import Loading from './components/Loading';
 import { Redirect } from 'react-router-dom';
+
+class MainPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			loadFinish: false,
+		};
+	}
+
+	render() {
+		if (this.state.loadFinish === true) {
+			return <Redirect to="/result" />;
+		} else {
+			return (
+				<StartPage>
+					<WhiteBlur />
+					<div style={{ position: 'absolute' }}>
+						<Title1>내 패션과 비슷한</Title1>
+						<Title2>인플루언서는 누구일까? </Title2>
+						<Desc>
+							<p>Influencer를 통해 내 패션 유형을 알아보자</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+							<p>Pellentesque nec leo neque. Pellentesque sed est mattis,</p>
+							<p> rhoncus elit eu, </p>
+						</Desc>
+						<NextButton onClick={() => this.setState({ loadFinish: true })}>
+							<div> 시작 </div>
+						</NextButton>
+					</div>
+				</StartPage>
+			);
+		}
+	}
+}
+
+export default MainPage;
 
 const StartPage = styled.div`
 	margin: 0;
@@ -111,118 +146,3 @@ const NextButton = styled.button`
 		background-color: ${darken(0.1, '#FF4500')};
 	}
 `;
-
-const FadeOut = styled.span`
-	transition: all 0.6s;
-`;
-
-const StyledLoading = styled.div`
-	transition: all 1s;
-`;
-
-class MainPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			loadFinish: false,
-			percentage: 1,
-			opacity2: 0,
-			visibility2: 'hidden',
-		};
-		this.nowLoading = this.nowLoading.bind(this);
-		this.showLoading = this.showLoading.bind(this);
-	}
-
-	nowLoading() {
-		if (this.state.loading === false) {
-			this.setState({
-				loading: true,
-				opacity: 0,
-				visibility: 'hidden',
-			});
-
-			console.log(this.state.percentage);
-			setInterval(
-				function () {
-					if (this.state.percentage > 99) {
-						setTimeout(
-							function () {
-								this.setState({
-									loadFinish: true,
-								});
-							}.bind(this),
-							500,
-						);
-					} else {
-						if (this.state.percentage > 99) {
-							this.setState({
-								percentage: 100,
-							});
-						} else {
-							this.setState({
-								percentage: this.state.percentage + 1,
-							});
-						}
-					}
-				}.bind(this),
-				22,
-			);
-		}
-	}
-
-	showLoading() {
-		console.log('사라져랏!!!');
-		this.setState({
-			opacity: 0,
-			visibility: 'hidden',
-
-			opacity2: 1,
-			visibility2: 'visible',
-		});
-		console.log(this.state.visibility);
-		this.nowLoading();
-	}
-
-	render() {
-		if (this.state.loadFinish === true) {
-			return <Redirect to="/result" />;
-		} else {
-			return (
-				<StartPage>
-					<WhiteBlur />
-
-					<FadeOut
-						style={{
-							opacity: this.state.opacity,
-							visibility: this.state.visibility,
-							position: 'absolute',
-						}}
-					>
-						<Title1>내 패션과 비슷한</Title1>
-						<Title2>인플루언서는 누구일까? </Title2>
-						<Desc>
-							<p>Influencer를 통해 내 패션 유형을 알아보자</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-							<p>Pellentesque nec leo neque. Pellentesque sed est mattis,</p>
-							<p> rhoncus elit eu, </p>
-						</Desc>
-						<NextButton onClick={this.showLoading}>
-							<div> 시작 </div>
-						</NextButton>
-					</FadeOut>
-					<StyledLoading
-						style={{
-							opacity: this.state.opacity2,
-							visibility: this.state.visibility2,
-						}}
-					>
-						<Loading percentage={this.state.percentage} />
-					</StyledLoading>
-				</StartPage>
-			);
-		}
-	}
-}
-
-export default MainPage;
